@@ -133,10 +133,36 @@ const ChatPage = ({ user, setUser }) => {
         }
     };
 
-    const handleLogout = () => {
-        if (setUser) setUser(null);
-        navigate('/');
+    // const handleLogout = () => {
+    //     if (setUser) setUser(null);
+    //     navigate('/');
+    // };
+
+
+
+
+const handleLogout = async () => {
+        try {
+            // 1. Tell backend to destroy the HTTP-only cookie
+            await axios.post(`${apiUrl}/api/v1/auth/logout`, {}, { withCredentials: true }); 
+        } catch (error) {
+            console.error("Backend logout failed:", error);
+        } finally {
+            // 2. Clear local storage tokens/user data
+            localStorage.removeItem('token'); 
+            localStorage.removeItem('user'); 
+            
+            // 3. THE FIX: Clear React States to prevent "Ghost Data"
+            setConversations([]); 
+            if (setUser) setUser(null);
+            
+            // 4. Redirect to login or home
+            navigate('/');
+        }
     };
+
+
+
 
     const handleNewChat = () => {
         // Reset messages and the activeChatId so a new DB entry is created on the next message
