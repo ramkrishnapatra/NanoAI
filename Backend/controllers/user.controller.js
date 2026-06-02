@@ -5,8 +5,8 @@ import bcrypt from "bcryptjs"; // Assuming you use bcryptjs for password hashing
 // Cookie options for security
 const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Secure in production (HTTPS)
-    sameSite: "strict",
+    secure: true, // Secure in production (HTTPS)
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
 };
 
