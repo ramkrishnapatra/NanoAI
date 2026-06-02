@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+const apiUrl=import.meta.env.VITE_SERVER_URL;
 
 const ChatPage = ({ user, setUser }) => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const ChatPage = ({ user, setUser }) => {
     useEffect(() => {
         const fetchConversations = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/v1/conversations', {
+                const response = await axios.get(`${apiUrl}/api/v1/conversations`, {
                     withCredentials: true
                 });
                 if (response.data.success) {
@@ -53,7 +54,7 @@ const ChatPage = ({ user, setUser }) => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:8000/api/v1/messages/${activeChatId}`, {
+                const response = await axios.get(`${apiUrl}/api/v1/messages/${activeChatId}`, {
                     withCredentials: true
                 });
                 
@@ -88,7 +89,7 @@ const ChatPage = ({ user, setUser }) => {
                 skipNextFetch.current = true;
 
                 const chatResponse = await axios.post(
-                    'http://localhost:8000/api/v1/conversations', 
+                    `${apiUrl}/api/v1/conversations`, 
                     { title: userMessage.substring(0, 30) + '...' }, // Generate title from first msg
                     { withCredentials: true } 
                 );
@@ -112,7 +113,7 @@ const ChatPage = ({ user, setUser }) => {
 
             // Send request to backend
             let response = await axios.post(
-                'http://localhost:8000/api/v1/ai/generate', 
+                `${apiUrl}/api/v1/ai/generate`, 
                 sendingData,
                 { withCredentials: true } 
             );

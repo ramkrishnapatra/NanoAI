@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+const apiUrl=import.meta.env.VITE_SERVER_URL;
 
 const LoginPage = ({ setUser }) => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const handleSubmit = async (e) => {
         
         // Make the actual API call to your backend
         const response = await axios.post(
-            `http://localhost:8000/api/v1/users/${endpoint}`, 
+            `${apiUrl}/api/v1/users/${endpoint}`, 
             formData,
             { withCredentials: true } // Crucial: This tells the browser to accept and store the JWT cookie
         );
